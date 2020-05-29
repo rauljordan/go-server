@@ -1,0 +1,11 @@
+version: '3.4'
+services:
+  database:
+    image: postgres:latest
+    container_name: database
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=password'
+      - 'POSTGRES_DB=go-server'
+    ports:
+      - '5432:5432'

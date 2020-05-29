@@ -1,0 +1,32 @@
+version: '3.4'
+services:
+  server:
+    container_name: server
+    build: ./
+    environment: 
+      - 'JWT_KEY=${JWT_KEY}'
+      - 'DATABASE_URL=postgres://postgres:password@database:5432/go-server?sslmode=disable'
+    ports:
+      - '8080:8080'
+      - '6060:6060'
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    ports:
+      - '3000:3000'
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus.config.yml:/etc/prometheus/prometheus.yml
+  database:
+    image: postgres:latest
+    container_name: database
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=password'
+      - 'POSTGRES_DB=go-server'
+    ports:
+      - '5432:5432'
